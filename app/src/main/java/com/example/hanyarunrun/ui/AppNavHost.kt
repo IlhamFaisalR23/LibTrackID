@@ -15,7 +15,10 @@ fun AppNavHost(viewModel: DataViewModel) {
     val navController = rememberNavController()
     val activity = LocalContext.current as? Activity
 
-    NavHost(navController = navController, startDestination = "list") {
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") {
+            HomeScreen(navController = navController)
+        }
         composable("form") {
             DataEntryScreen(navController = navController, viewModel = viewModel)
         }
@@ -38,6 +41,9 @@ fun AppNavHost(viewModel: DataViewModel) {
         }
         composable("exit") {
             activity?.finish()
+        }
+        composable("graph") {
+            GrafikScreen(navController = navController, dataList = viewModel.dataList.value ?: emptyList())
         }
     }
 }

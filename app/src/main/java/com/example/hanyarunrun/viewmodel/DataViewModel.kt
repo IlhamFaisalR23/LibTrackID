@@ -12,9 +12,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.hanyarunrun.data.KotaItem
+import com.example.hanyarunrun.network.ApiClient
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
 class DataViewModel(application: Application) : AndroidViewModel(application) {
     private val dao = AppDatabase.getDatabase(application).dataDao()
     val dataList: LiveData<List<DataEntity>> = dao.getAll()
+    private val _kotaList = MutableStateFlow<List<KotaItem>>(emptyList())
+    val kotaList: StateFlow<List<KotaItem>> = _kotaList
 
     fun insertData(
         namaProvinsi: String,
@@ -60,4 +70,23 @@ class DataViewModel(application: Application) : AndroidViewModel(application) {
             dao.getById(id)
         }
     }
+
+    fun checkDatabase() {
+        viewModelScope.launch {
+            val allData = dao.getAll().value ?: emptyList()
+            println("Database contains: ${allData.size} items")
+        }
+    }
+
+    fun fetchKotaList() {
+        viewModelScope.launch {
+            try {
+                val response = ApiClient.apiService.getKotaList()
+                _kotaList.value = response.data
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 }

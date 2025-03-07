@@ -13,9 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             HanyarunrunTheme {
-                // Inisialisasi ViewModel
                 val dataViewModel: DataViewModel = viewModel()
-                // Menampilkan Navigation Host
                 AppNavHost(viewModel = dataViewModel)
             }
         }
