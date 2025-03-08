@@ -154,7 +154,6 @@ fun EditScreen(navController: NavHostController, viewModel: DataViewModel, dataI
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth()
                     )
-                    // Dropdown for Satuan
                     ExposedDropdownMenuBox(
                         expanded = isSatuanExpanded,
                         onExpandedChange = { isSatuanExpanded = it }
@@ -222,7 +221,6 @@ fun EditScreen(navController: NavHostController, viewModel: DataViewModel, dataI
                 Text("Unggah Gambar")
             }
 
-            // Update Button
             Button(
                 onClick = {
                     try {
